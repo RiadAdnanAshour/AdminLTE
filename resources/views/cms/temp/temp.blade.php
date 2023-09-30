@@ -2,8 +2,6 @@
 
 
 
-
-
 @section('title','')
 @section('page-big-title','')
 @section('page-main-title','')

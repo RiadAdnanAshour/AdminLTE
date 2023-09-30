@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\CityController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,4 +17,10 @@ use Illuminate\Support\Facades\Route;
 //    return view('welcome');
 //});
 
-Route::view('cms/cmsAdmin','cms.parent');
+
+Route::prefix('cms/cmsAdmin')->group(function (){
+    Route::view('/','cms.parent');
+    Route::view('/index','cms.temp.index');
+    Route::resource('citites',CityController::class);
+
+});
