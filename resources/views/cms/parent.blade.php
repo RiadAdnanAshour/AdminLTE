@@ -205,13 +205,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('citites.create')}}" class="nav-link ">
+                <a href="{{route('cities.create')}}" class="nav-link ">
                   <i class="fas fa-plus nav-icon"></i>
                   <p>Create</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('citites.index')}}" class="nav-link">
+                <a href="{{route('cities.index')}}" class="nav-link">
                   <i class="fas fa-list nav-icon "></i>
                   <p>Index</p>
                 </a>

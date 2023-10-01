@@ -39,18 +39,39 @@
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>City</th>
+                                    <th>Name</th>
+                                    <th>Created_at</th>
+                                    <th>Updated_at</th>
+                                    <th>sataing</th>
 
                                 </tr>
                                 </thead>
                                 <tbody>
+                                @foreach($cities as $city )
                                 <tr>
-{{--                                    @foreach($ )--}}
-{{--                                    <td>183</td>--}}
-{{--                                    <td>John Doe</td>--}}
-{{--                                    @endforeach--}}
-                                </tr>
 
+                                        <td>{{$city->id}}</td>
+                                        <td>{{$city->name}}</td>
+                                        <td>{{$city->created_at}}</td>
+                                        <td>{{$city->updated_at}}</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a href="{{route('cities.edit',$city->id)}}" class="btn btn-info">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                       <form method="post" action="{{route('cities.destroy',$city->id)}}">
+                                           @csrf
+                                           @method('DELETE')
+                                           <button type="submit" class="btn btn-danger">
+                                               <i class="fas fa-trash"></i>
+                                           </button>
+                                       </form>
+
+                                            </div>
+                                        </td>
+
+                                </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>

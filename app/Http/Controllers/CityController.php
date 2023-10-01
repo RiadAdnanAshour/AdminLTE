@@ -14,7 +14,7 @@ class CityController extends Controller
     {
         $data = City::all();
 
-        return response()->view('cms.citites.index',['citites'=>$data]);
+        return response()->view('cms.cities.index',['cities'=>$data]);
     }
 
     /**
@@ -22,7 +22,9 @@ class CityController extends Controller
      */
     public function create()
     {
-        //
+        $data = City::all();
+
+        return response()->view('cms.cities.create',['cities'=>$data]);
     }
 
     /**
@@ -30,7 +32,17 @@ class CityController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|min:3|max:45'
+        ]);
+
+        City::create(
+            [
+                'name' => $request->input('name'),
+            ]
+        );
+        session()->flash('message', 'Activity added to the city');
+        return redirect()->back();
     }
 
     /**
@@ -46,7 +58,9 @@ class CityController extends Controller
      */
     public function edit(City $city)
     {
-        //
+
+
+        return response()->view('cms.cities.edit',['city'=>$city]);
     }
 
     /**
@@ -54,7 +68,21 @@ class CityController extends Controller
      */
     public function update(Request $request, City $city)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|min:3|max:45'
+        ]);
+
+        if ($city) {
+            $city->update([
+                'name' => $request->input('name'),
+            ]);
+
+            session()->flash('message', 'City updated successfully');
+        } else {
+            session()->flash('error', 'City not found');
+        }
+
+        return redirect()->back();
     }
 
     /**
@@ -62,6 +90,7 @@ class CityController extends Controller
      */
     public function destroy(City $city)
     {
-        //
+        $city->delete();
+        return redirect()->back();
     }
 }
