@@ -2,10 +2,10 @@
 
 
 
-@section('title','cities')
-@section('page-big-title','cities')
-@section('page-main-title','cities')
-@section('page-sub-title','cities')
+@section('title','categories')
+@section('page-big-title','categories')
+@section('page-main-title','categories')
+@section('page-sub-title','categories')
 @section('styles')
 @endsection
 
@@ -40,6 +40,8 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
+                                    <th>Description</th>
+                                    <th>status</th>
                                     <th>Created_at</th>
                                     <th>Updated_at</th>
                                     <th>sataing</th>
@@ -47,19 +49,25 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($cities as $city )
+                                @foreach($categories as $category )
                                 <tr>
 
-                                        <td>{{$city->id}}</td>
-                                        <td>{{$city->name}}</td>
-                                        <td>{{$city->created_at}}</td>
-                                        <td>{{$city->updated_at}}</td>
+                                    <td>{{$category->id}}</td>
+                                    <td>{{$category->name}}</td>
+                                    <td>{{$category->description}}</td>
+                                    <td>
+    <span class="badge @if($category->status) bg-success @else bg-danger @endif">
+      {{ $category->visibility }}
+    </span>
+                                    </td>
+                                    <td>{{$category->created_at}}</td>
+                                    <td>{{$category->updated_at}}</td>
                                         <td>
                                             <div class="btn-group">
-                                                <a href="{{route('cities.edit',$city->id)}}" class="btn btn-info">
+                                                <a href="{{route('categories.edit',$category->id)}}" class="btn btn-info">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                       <form method="post" action="{{route('cities.destroy',$city->id)}}">
+                                       <form method="post" action="{{route('categories.destroy',$category->id)}}">
                                            @csrf
                                            @method('DELETE')
                                            <button type="submit" class="btn btn-danger">

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 
 class CategoryController extends Controller
 {
@@ -12,7 +15,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories=Category::all();
+        return response()->view('cms.categories.index',compact('categories'));
     }
 
     /**
@@ -20,7 +24,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return response()->view('cms.categories.create');
     }
 
     /**
@@ -28,7 +32,21 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator=Validator($request->all(),[
+            'name' => 'required|string|min:3|max:45',
+            'description' => 'nullable|string|min:3|max:100',
+            'status' => 'required|boolean',
+        ]);
+        if(!$validator->fails()){
+            $category=new Category();
+            $category->name=$request->input('name');
+            $category->description=$request->input('description');
+            $category->status=$request->input('status');
+            $isSaved=$category->save();
+            return response()->json(['message'=>$isSaved?'Created successfully' : 'Created failed'],HttpFoundationResponse::HTTP_CREATED);
+        }else{
+            return response()->json(['message'=>$validator->getMessageBag()->first()],HttpFoundationResponse::HTTP_BAD_REQUEST);
+        }
     }
 
     /**
@@ -44,7 +62,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return response()->view('cms.categories.edit',compact('category'));
     }
 
     /**
@@ -52,7 +70,21 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $validator=Validator($request->all(),[
+            'name' => 'required|string|min:3|max:45',
+            'description' => 'nullable|string|min:3|max:100',
+            'status' => 'required|boolean',
+        ]);
+
+        if(!$validator->fails()){
+            $category->name=$request->input('name');
+            $category->description=$request->input('description');
+            $category->status=$request->input('status');
+            $isUpdated=$category->save();
+            return response()->json(['message'=>$isUpdated?'Updated successfully' : 'Updated failed'],HttpFoundationResponse::HTTP_OK);
+        }else{
+            return response()->json(['message'=>$validator->getMessageBag()->first()],HttpFoundationResponse::HTTP_BAD_REQUEST);
+        }
     }
 
     /**
@@ -60,6 +92,10 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $isDeleted=$category->delete();
+        return response()->json([
+            'icon' => $isDeleted ? 'success' : 'error',
+            'title' => $isDeleted ? 'Deleted Successfully' : 'Deleted Failed!',
+        ],$isDeleted ? HttpFoundationResponse::HTTP_OK : HttpFoundationResponse::HTTP_BAD_REQUEST);
     }
 }

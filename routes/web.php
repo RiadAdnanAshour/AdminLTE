@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\VendorController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,6 +24,7 @@ Route::prefix('cms/cmsAdmin')->group(function (){
     Route::view('/','cms.parent');
     Route::view('/index','cms.temp.index');
     Route::resource('cities',CityController::class);
-    Route::resource('categones',CategoryController::class);
+    Route::resource('categories',CategoryController::class);
+    Route::resource('vendors',VendorController::class);
 
 });
